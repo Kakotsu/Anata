@@ -1,5 +1,5 @@
 # Anata
-An open source Discord bot with totally 100% spaghetti code and definitely doesn't have two package managers.
+An open source Discord bot with totally 100% spaghetti code. From the developers of TakumiPy, TakumiJS, and TakumiTS.
 
 ## [Instructions](https://github.com/Zemyoro/Anata/wiki/Preparation)
 
@@ -17,14 +17,7 @@ An open source Discord bot with totally 100% spaghetti code and definitely doesn
 * [levichlev#0065](https://github.com/levichlev)
 * [Xx__THK__xX#5184](https://github.com/ducanh2002123)
 * [Snags#1348](https://github.com/Sangster-5)
-
-# Credits
-
-* [Exerra](https://github.com/Exerra) (For Spotify stuff)
-
-## About
-* Based off of TakumiJS
-* Multi-purpose Discord bot
+* [Exerra](https://github.com/Exerra)
 
 ## Contributing to the project would be appreciated
 * Fork (Or join the [Discord server](https://discord.gg/MCHbrf3SwS) for invitation)
