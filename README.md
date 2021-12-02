@@ -3,6 +3,10 @@ An open source Discord bot with totally 100% spaghetti code and definitely doesn
 
 ## [Instructions](https://github.com/Zemyoro/Anata/wiki/Preparation)
 
+## Plans
+* Slash commands only
+* Music Support
+* [Secret Plan](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 # Takumi Team
 
