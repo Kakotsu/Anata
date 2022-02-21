@@ -1,117 +1,70 @@
-const Discord = require('discord.js');
-
 module.exports = {
   name: 'messageCreate',
-  execute(message) {
-    const client = message.client;
+  execute(message, client) {
 
-    if (message.author.bot) return;
+    if (message.content.startsWith9(process.env.PREFIX)) {
+      if (message.author.bot) return;
 
-    if (
-      message.content.startsWith('<@861237525690712084>') || // Put your application id from https://discord.com/developers/applications/yourbot/information here
-      message.content.startsWith('<@!861237525690712084>') // Repeat ^
-    )
-      return message.channel.send(`Hi! My prefix is \`${process.env.PREFIX}\``);
+      const args = message.content
+        .slice(process.env.PREFIX.length)
+        .trim()
+        .split(' ');
+      const commandName = args.shift().toLowerCase();
+      const command = client.commands.get(commandName);
+      if (!command) return message.reply('That command doesn\'t exist!');
 
-    if (!message.content.startsWith(process.env.PREFIX)) return;
+      if (!message.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
 
-    const args = message.content
-      .slice(process.env.PREFIX.length)
-      .trim()
-      .split(' ');
-    const commandName = args.shift().toLowerCase();
+      // Check if arguments are required and, if so, that the message has arguments
+      if (command.args && !args.length) {
+        let reply = `You didn't provide any arguments!`;
 
-    // Check if command exists
-    if (!client.commands.has(commandName))
-      return message.channel.send('Command not found!');
+        if (command.usage) {
+          reply += `\nUsage: \`${process.env.PREFIX}${command.name} ${command.usage}\``;
+        }
 
-    const command = client.commands.get(commandName);
-
-    if (!message.channel.permissionsFor(client.user).has('SEND_MESSAGES')) {
-      return;
-    }
-
-    // Check if guild only command is in dms
-    if (command.guildOnly && message.channel.type === 'dm') {
-      return message.channel.send("Sorry, but you can't use that in DM's!");
-    }
-
-    // Check if arguments are required and, if so, that the message has arguments
-    if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments!`;
-
-      if (command.usage) {
-        reply += `\nUsage: \`${process.env.PREFIX}${command.name} ${command.usage}\``;
+        return message.reply(reply);
       }
 
-      return message.channel.send(reply);
-    }
+      // Check if user has permissions
+      if (command.permissions) {
+        const authorPerms = message.channel.permissionsFor(message.author);
 
-    // Handle cooldowns
-    const { cooldowns } = client;
+        for (commandPerm of command.permissions) {
+          if (!authorPerms || !authorPerms.has(commandPerm)) {
+            return message.reply(
+              `You don't have permissions to execute that command! You need the following permissions to do this:\n\`${command.permissions.join(
+                '`, `'
+              )}\``
+            );
+          }
+        }
+      }
 
-    if (!cooldowns.has(command.name)) {
-      cooldowns.set(command.name, new Discord.Collection());
-    }
+      // Check if bot has permissions
+      if (command.botPermissions) {
+        const botPerms = message.channel.permissionsFor(client.user);
 
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 0.5) * 1000;
+        for (commandPerm of command.botPermissions) {
+          if (!botPerms || !botPerms.has(commandPerm)) {
+            return message.reply(
+              `The bot doesn't have permissions to do that! Ask an admin to add the following permissions:\n\`${command.botPermissions.join(
+                '`, `'
+              )}\``
+            );
+          }
+        }
+      }
 
-    if (timestamps.has(message.author.id)) {
-      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-      if (now < expirationTime) {
-        const timeLeft = (expirationTime - now) / 1000;
-        return message.channel.send(
-          `Please wait ${timeLeft.toFixed(1)} seconds before using \`${
-            command.name
-          }\` again.`
+      // Run the command
+      try {
+        command.execute(message, args, client);
+      } catch (error) {
+        console.error(error);
+        message.reply(
+          'Whoops, there was an error executing that command.'
         );
       }
-    }
-
-    timestamps.set(message.author.id, now);
-    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
-    // Check if user has permissions
-    if (command.permissions) {
-      const authorPerms = message.channel.permissionsFor(message.author);
-
-      for (commandPerm of command.permissions) {
-        if (!authorPerms || !authorPerms.has(commandPerm)) {
-          return message.channel.send(
-            `You don't have permissions to execute that command! You need the following permissions to do this:\n\`${command.permissions.join(
-              '`, `'
-            )}\``
-          );
-        }
-      }
-    }
-
-    // Check if bot has permissions
-    if (command.botPermissions) {
-      const botPerms = message.channel.permissionsFor(client.user);
-
-      for (commandPerm of command.botPermissions) {
-        if (!botPerms || !botPerms.has(commandPerm)) {
-          return message.channel.send(
-            `The bot doesn't have permissions to do that! Ask an admin to add the following permissions:\n\`${command.botPermissions.join(
-              '`, `'
-            )}\``
-          );
-        }
-      }
-    }
-
-    // Run the command
-    try {
-      command.execute(message, args, client);
-    } catch (error) {
-      console.error(error);
-      message.channel.send(
-        'Whoops, there was an error executing that command.'
-      );
     }
   },
 };

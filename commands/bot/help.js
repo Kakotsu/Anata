@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const randomEmbedMessage = require('../../functions/randomEmbedMessage');
+const randomEmbedMessage = require('../../data/functions/randomEmbedMessage');
 
 const mainMenu = (client) => {
   let embed = randomEmbedMessage({
@@ -78,13 +78,13 @@ module.exports = {
   usage: '[category | command]',
   execute(message, args) {
     if (!args.length) {
-      return message.channel.send({ embeds: [mainMenu(message.client)] });
+      return message.reply({ embeds: [mainMenu(message.client)] });
     }
 
     const input = args[0].toLowerCase();
 
     if (message.client.commandCategories.has(input)) {
-      return message.channel.send({
+      return message.reply({
         embeds: [categoryMenu(input, message.client)],
       });
     }
@@ -92,7 +92,7 @@ module.exports = {
     const command = message.client.commands.get(input);
     if (command) {
       if (command.unlisted) return;
-      return message.channel.send({ embeds: [commandMenu(command)] });
+      return message.reply({ embeds: [commandMenu(command)] });
     }
   },
 };

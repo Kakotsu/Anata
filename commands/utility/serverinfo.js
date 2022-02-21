@@ -1,15 +1,15 @@
-const randomEmbedMessage = require('../../functions/randomEmbedMessage');
+const randomEmbedMessage = require('../../data/functions/randomEmbedMessage');
 
 module.exports = {
   name: 'serverinfo',
   description: 'Get information of the current server.',
-  guildOnly: true,
+  
   execute(message, args, client) {
     let embed = randomEmbedMessage({
       title: ':desktop: Server Info',
       color: 2767506,
       thumbnail: {
-        url: message.guild.iconURL({dynamic: true}),
+        url: message.guild.iconURL({ dynamic: true }),
       },
       fields: [
         {
@@ -30,6 +30,6 @@ module.exports = {
         },
       ],
     })
-    message.channel.send({embeds: [embed]})
+    message.reply({ embeds: [embed] })
   },
 };

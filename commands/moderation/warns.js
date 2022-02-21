@@ -1,23 +1,23 @@
 const { MessageEmbed } = require('discord.js');
 
-const getUserFromString = require('../../functions/getUserFromString');
-const randomEmbedMessage = require('../../functions/randomEmbedMessage');
+const getUserFromString = require('../../data/functions/getUserFromString');
+const randomEmbedMessage = require('../../data/functions/randomEmbedMessage');
 
-const Warn = require('../../models/Warn');
+const Warn = require('../../data/models/Warn');
 
 module.exports = {
   name: 'warns',
   description: 'See all warns a member has',
   args: true,
   usage: '<user>',
-  guildOnly: true,
+  
   permissions: ['MANAGE_MESSAGES'],
   async execute(message, args) {
     const user = getUserFromString(args[0], message);
     const member = message.guild.member(user);
 
     if (!member)
-      return message.channel.send(
+      return message.reply(
         "I can't find that user. Please mention or give the id of that user."
       );
 
@@ -25,7 +25,7 @@ module.exports = {
     const memberRolePos = member.roles.highest.position;
 
     if (memberRolePos > authorRolePos)
-      return message.channel.send("You can't warn people with a higher role.");
+      return message.reply("You can't warn people with a higher role.");
 
     const warns = await Warn.find({
       userId: user.id,
@@ -33,7 +33,7 @@ module.exports = {
     });
 
     if (!warns.length) {
-      return message.channel.send('This member has no warns.');
+      return message.reply('This member has no warns.');
     }
 
     const embed = randomEmbedMessage({
@@ -62,6 +62,6 @@ module.exports = {
       embed.description =
         '⚠️ There are more warns, but this message is getting too long. Remove some warns to see the rest.';
 
-    message.channel.send({embeds: [embed]});
+    message.reply({embeds: [embed]});
   },
 };

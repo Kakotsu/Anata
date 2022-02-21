@@ -1,12 +1,12 @@
-const getUserFromString = require('../../functions/getUserFromString');
-const randomEmbedMessage = require('../../functions/randomEmbedMessage');
+const getUserFromString = require('../../data/functions/getUserFromString');
+const randomEmbedMessage = require('../../data/functions/randomEmbedMessage');
 
 module.exports = {
   name: 'kick',
   description: 'kick balls',
   args: true,
   usage: '<user> [reason]',
-  guildOnly: true,
+  
   permissions: ['KICK_MEMBERS'],
   botPermissions: ['KICK_MEMBERS'],
   execute(message, args) {
@@ -18,7 +18,7 @@ module.exports = {
     reason = reason.join(' ');
 
     if (!member)
-      return message.channel.send(
+      return message.reply(
         "I can't find that user. Please mention or give the id of that user."
       );
 
@@ -26,47 +26,45 @@ module.exports = {
     const memberRolePos = member.roles.highest.position;
 
     if (message.author == user)
-      return message.channel.send("Lmao don't kick yourself noob");
+      return message.reply("Lmao don't kick yourself noob");
 
     if (memberRolePos >= authorRolePos)
-      return message.channel.send(
+      return message.reply(
         "You can't kick people with the same role or higher."
       );
 
     if (!member.kickable)
-      return message.channel.send(
+      return message.reply(
         'I do not have the permissions to kick this person. Ask an admin to move me up in the role hierachy.'
       );
 
     let embed = {
       title: `🦿 You were kicked from ${message.guild.name}`,
-      description: `Kicked ${
-        reason ? `for '${reason}'` : 'without a reason given.'
-      }`,
+      description: `Kicked ${reason ? `for '${reason}'` : 'without a reason given.'
+        }`,
       color: 2767506,
     };
 
     user
-      .send({embeds: [embed]})
+      .send({ embeds: [embed] })
       .catch(() => {
-        message.channel.send(
+        message.reply(
           "I wasn't able to dm the user, but they still got kicked."
         );
       })
       .then(() => {
         embed = randomEmbedMessage({
           title: '🦿 Kicked member',
-          description: `Kicked user ${user.tag}${
-            reason ? ` for '${reason}'` : ''
-          }`,
+          description: `Kicked user ${user.tag}${reason ? ` for '${reason}'` : ''
+            }`,
           color: 2767506,
         });
 
         member
           .kick()
-          .then(() => message.channel.send({embeds: [embed]}))
+          .then(() => message.reply({ embeds: [embed] }))
           .catch(() =>
-            message.channel.send(
+            message.reply(
               `Unable to kick ${user.tag} for an unknown reason.`
             )
           );

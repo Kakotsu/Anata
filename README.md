@@ -4,23 +4,21 @@ An open source Discord bot with totally 100% spaghetti code. From the developers
 ## [Instructions](https://github.com/Zemyoro/Anata/wiki/Preparation)
 
 ## Plans
-* Slash commands only
-* Music Support
 * [Secret Plan](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 # Takumi Team
 
-* [Zemyoro#1337](https://github.com/Zemyoro)
+* [Zemyoro#4845](https://github.com/Zemyoro)
 * [Roembol#8341](https://github.com/roembol2000)
 * [Crafted#1114](https://github.com/CraftedVortex)
-* [MinxterYT#1337](https://github.com/MinxterYT)
+* [M1nx#0001](https://github.com/M1nxYT)
 * [levichlev#0065](https://github.com/levichlev)
-* [Xx__THK__xX#5184](https://github.com/ducanh2002123)
+* [Xx__THK__xX#2744](https://github.com/ducanh2002123)
 * [Snags#1348](https://github.com/Sangster-5)
 * [Exerra](https://github.com/Exerra)
 
 ## Contributing to the project would be appreciated
-* Fork (Or join the [Discord server](https://discord.gg/MCHbrf3SwS) for invitation)
+* Fork (Or join the [Discord server](https://discord.gg/bjP8h28YyB) for invitation)
 * Do your thing
 * Make pull request
 * Wait...

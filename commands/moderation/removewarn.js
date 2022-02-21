@@ -1,14 +1,14 @@
-const getUserFromString = require('../../functions/getUserFromString');
-const randomEmbedMessage = require('../../functions/randomEmbedMessage');
+const getUserFromString = require('../../data/functions/getUserFromString');
+const randomEmbedMessage = require('../../data/functions/randomEmbedMessage');
 
-const Warn = require('../../models/Warn');
+const Warn = require('../../data/models/Warn');
 
 module.exports = {
   name: 'removewarn',
   description: 'Remove a warn from a member',
   args: true,
   usage: '<warnId>',
-  guildOnly: true,
+  
   permissions: ['MANAGE_MESSAGES'],
   async execute(message, args) {
     const warnId = args[0];
@@ -18,13 +18,13 @@ module.exports = {
       serverId: message.guild.id,
     });
 
-    if (!warn.length) return message.channel.send("I can't find that warning.");
+    if (!warn.length) return message.reply("I can't find that warning.");
 
     const user = getUserFromString(warn[0].userId, message);
     const member = message.guild.member(user);
 
     if (!member)
-      return message.channel.send(
+      return message.reply(
         'I cannot find the user associated with this warning anymore.'
       );
 
@@ -32,10 +32,10 @@ module.exports = {
     const memberRolePos = member.roles.highest.position;
 
     if (message.author == user)
-      return message.channel.send("You can't remove warns from yourself.");
+      return message.reply("You can't remove warns from yourself.");
 
     if (memberRolePos >= authorRolePos)
-      return message.channel.send(
+      return message.reply(
         "You can't remove warns from people with the same role or higher."
       );
 
@@ -47,7 +47,7 @@ module.exports = {
         description: `Succesfully removed warn ${warnId} from ${user.tag}.`,
       });
 
-      message.channel.send({embeds: [embed]});
+      message.reply({embeds: [embed]});
     });
   },
 };

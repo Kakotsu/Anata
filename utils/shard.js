@@ -1,8 +1,12 @@
+// Create a shard.
+
+// This will automatically start the bot after crash.
+
 const { ShardingManager } = require("discord.js")
 require('dotenv').config();
 
 const shards = new ShardingManager("./anata.js", {
-    token: process.env.TOKEN,
+    token: process.env['TOKEN'],
     totalShards: "auto"
 });
 
