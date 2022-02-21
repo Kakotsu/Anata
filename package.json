@@ -9,14 +9,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Zemyoro/Anata.git"
+        "url": "git+https://github.com/Kakotsu/Anata.git"
     },
     "author": "Zemyoro",
     "license": "UNLICENSED",
     "bugs": {
-        "url": "https://github.com/Zemyoro/Anata/issues"
+        "url": "https://github.com/Kakotsu/Anata/issues"
     },
-    "homepage": "https://github.com/Zemyoro/Anata#readme",
+    "homepage": "https://github.com/Kakotsu/Anata#readme",
     "dependencies": {
         "@discordjs/builders": "^0.12.0",
         "@discordjs/rest": "^0.3.0",
