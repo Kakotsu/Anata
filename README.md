@@ -1,6 +1,8 @@
 # Anata
 An open source Discord bot with totally 100% spaghetti code. From the developers of TakumiPy, TakumiJS, and TakumiTS.
 
+## New version of Anata [available](https://github.com/Kakotsu/AnataTS)!
+
 ## [Instructions](https://github.com/Zemyoro/Anata/wiki/Preparation)
 
 ## Plans
